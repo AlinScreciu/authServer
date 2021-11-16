@@ -62,7 +62,7 @@ const login = (req, res, next) => {
                     const token = jwt.sign({ email: req.body.email }, 'secret', { expiresIn: '1h' });
                     res.status(200).json({message: "user logged in", "token": token, auth: true});
                 } else { // password doesnt match
-                    res.status(401).json({message: "invalid credentials", auth: false});
+                    res.status(401).json({message: "invalid credentials wtf is going on man", auth: false});
                 };
             });
         };
