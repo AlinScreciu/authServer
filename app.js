@@ -3,7 +3,7 @@ import express from 'express';
 import sequelize from './utils/database.js';
 
 import router from './routes/routes.js';
-
+const port = process.env.PORT || 5000
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
@@ -21,4 +21,4 @@ app.use(router);
 
 sequelize.sync(); 
 
-app.listen(5000);
+app.listen(port);
