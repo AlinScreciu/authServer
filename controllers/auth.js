@@ -46,6 +46,7 @@ const signup = (req, res, next) => {
 
 const login = (req, res, next) => {
     // checks if email exists
+    console.log('hit');
     User.findOne({ where : {
         email: req.body.email, 
     }})
@@ -61,7 +62,7 @@ const login = (req, res, next) => {
                     const token = jwt.sign({ email: req.body.email }, 'secret', { expiresIn: '1h' });
                     res.status(200).json({message: "user logged in", "token": token, auth: true});
                 } else { // password doesnt match
-                    res.status(401).json({message: "invalid credentials", auth: false});
+                    res.status(401).json({message: "invalid credentials wtf is going on man", auth: false});
                 };
             });
         };
@@ -86,7 +87,7 @@ const isAuth = (req, res, next) => {
     if (!decodedToken) {
         res.status(401).json({ auth: false });
     } else {
-        res.status(200).json({ auth: true , message: "Authenticated"});
+        res.status(200).json({ auth: true });
     };
 };
 
