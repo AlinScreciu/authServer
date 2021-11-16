@@ -10,7 +10,7 @@ router.post('/signup', signup);
 router.get('/private', isAuth);
 
 router.get('/public', (req, res, next) => {
-    res.send('Hello world!')
+    res.send('Hello world! test is this working')
 });
 
 // will match any other path
