@@ -11,7 +11,7 @@ const signup = (req, res, next) => {
     }})
     .then(dbUser => {
         if (dbUser) {
-            return res.status(409).json({message: "email already exists"});
+            return res.status(409).json({message: "A user with this email already exists"});
         } else if (req.body.email && req.body.password) {
             // password hash
             bcrypt.hash(req.body.password, 12, (err, passwordHash) => {
@@ -25,7 +25,7 @@ const signup = (req, res, next) => {
                         password: passwordHash,
                     }))
                     .then(() => {
-                        res.status(200).json({message: "user created"});
+                        res.status(200).json({message: "User created"});
                     })
                     .catch(err => {
                         console.log(err);
@@ -34,9 +34,9 @@ const signup = (req, res, next) => {
                 };
             });
         } else if (!req.body.password) {
-            return res.status(400).json({message: "password not provided"});
+            return res.status(400).json({message: "Password not provided"});
         } else if (!req.body.email) {
-            return res.status(400).json({message: "email not provided"});
+            return res.status(400).json({message: "Email not provided"});
         };
     })
     .catch(err => {
@@ -46,7 +46,6 @@ const signup = (req, res, next) => {
 
 const login = (req, res, next) => {
     // checks if email exists
-    console.log('hit');
     User.findOne({ where : {
         email: req.body.email, 
     }})
@@ -59,10 +58,10 @@ const login = (req, res, next) => {
                 if (err) { // error while comparing
                     res.status(502).json({message: "error while checking user password", auth: false});
                 } else if (compareRes) { // password match
-                    const token = jwt.sign({ email: req.body.email }, 'secret', { expiresIn: '1h' });
-                    res.status(200).json({message: "user logged in", "token": token, auth: true});
+                    const token = jwt.sign({ email: req.body.email }, 'secret', { expiresIn: '7d' });
+                    res.status(200).json({message: "User logged in", "token": token, auth: true});
                 } else { // password doesnt match
-                    res.status(401).json({message: "invalid credentials wtf is going on man", auth: false});
+                    res.status(401).json({message: "Invalid credentials", auth: false});
                 };
             });
         };
