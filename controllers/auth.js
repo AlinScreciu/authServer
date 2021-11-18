@@ -3,6 +3,9 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import User from '../models/user.js';
+import dotenv from 'dotenv'
+
+dotenv.config();
 
 const signup = (req, res, next) => {
     // checks if email already exists
@@ -79,7 +82,7 @@ const isAuth = (req, res, next) => {
     const token = authHeader.split(' ')[1];
     let decodedToken; 
     try {
-        decodedToken = jwt.verify(token, 'secret');
+        decodedToken = jwt.verify(token, process.env.SECRET);
     } catch (err) {
         return res.status(500).json({ message: err.message || 'could not decode the token' });
     };
