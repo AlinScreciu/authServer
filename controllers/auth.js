@@ -11,12 +11,12 @@ const signup = (req, res, next) => {
     }})
     .then(dbUser => {
         if (dbUser) {
-            return res.status(409).json({message: "A user with this email already exists"});
+            return res.status(409).json({message: "A user with this email already exists", success: false});
         } else if (req.body.email && req.body.password) {
             // password hash
             bcrypt.hash(req.body.password, 12, (err, passwordHash) => {
                 if (err) {
-                    return res.status(500).json({message: "couldnt hash the password"}); 
+                    return res.status(500).json({message: "couldnt hash the password", success: false}); 
                 } else if (passwordHash) {
                     // user added to db
                     return User.create(({
@@ -25,18 +25,18 @@ const signup = (req, res, next) => {
                         password: passwordHash,
                     }))
                     .then(() => {
-                        res.status(200).json({message: "User created"});
+                        res.status(200).json({message: "User created", success: true});
                     })
                     .catch(err => {
                         console.log(err);
-                        res.status(502).json({message: "error while creating the user"});
+                        res.status(502).json({message: "error while creating the user", success: false});
                     });
                 };
             });
         } else if (!req.body.password) {
-            return res.status(400).json({message: "Password not provided"});
+            return res.status(400).json({message: "Password not provided", success: false});
         } else if (!req.body.email) {
-            return res.status(400).json({message: "Email not provided"});
+            return res.status(400).json({message: "Email not provided", success: false});
         };
     })
     .catch(err => {
