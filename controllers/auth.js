@@ -84,7 +84,7 @@ const isAuth = (req, res, next) => {
     try {
         decodedToken = jwt.verify(token, process.env.SECRET);
     } catch (err) {
-        return res.status(500).json({ message: err.message || 'could not decode the token' });
+        return res.status(500).json({ message: err.message || 'could not decode the token', auth: false });
     };
     if (!decodedToken) {
         res.status(401).json({ auth: false });
