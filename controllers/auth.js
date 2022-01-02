@@ -8,10 +8,7 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 
-const verify = (req, res , next) => {
-    const code = Math.floor(100000 + Math.random() * 900000);
-    return res.status(200).json({"code": code });
-};
+
 const signup = (req, res, next) => {
     // checks if email already exists
     User.findOne({ where : {
