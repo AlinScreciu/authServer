@@ -57,7 +57,7 @@ const codeVerify = (req, res, next) => {
         email: req.body.email,
     }}).then(dbUser => {
         if(!dbUser){
-            return res.status(409).json({message: "No user with given email!"});
+            return res.status(409).json({message: "No user with given email!", success: false});
         } else if (req.body.email) {
             codes = codes.filter(item => !(item.email == req.body.email));
             const code = Math.floor(100000 + Math.random() * 900000);
@@ -75,9 +75,9 @@ const codeVerify = (req, res, next) => {
                 else
                     console.log('Sent: '+ res.response);
             });
-            return res.status(200).json({"email": req.body.email, "code": code.toString()});
+            return res.status(200).json({"email": req.body.email, "code": code.toString(), success: true});
         } else {
-            return res.status(400).json({message: "Email not provided"});
+            return res.status(400).json({message: "Email not provided", success: false});
         }
     }).catch(err => {
         console.log(err);
@@ -133,7 +133,7 @@ const login = (req, res, next) => {
     }})
     .then(dbUser => {
         if (!dbUser) {
-            return res.status(404).json({message: "user not found"});
+            return res.status(404).json({message: "user not found", success: false});
         } else {
             // password hash
             bcrypt.compare(req.body.password, dbUser.password, (err, compareRes) => {
