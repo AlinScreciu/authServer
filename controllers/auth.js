@@ -8,18 +8,8 @@ import dotenv from 'dotenv'
 dotenv.config();
 var codes = [];
 const codeVerify = (req, res, next) => {
+    return res.status(200).json({message: `recieved ${req.body.email}`});
 
-    User.findOne({where: {
-        email: req.body.email,
-    }}).then(dbUser => {
-        if (!dbUser)
-        {
-            return res.status(409).json({message: "user not in db"});
-        } else {
-            return res.status(200).json({message: `recieved ${req.body.email}`});
-        }
-    }).catch(err => {console.log(err);})
-    
 }
 
 const signup = (req, res, next) => {
