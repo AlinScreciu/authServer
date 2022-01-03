@@ -39,7 +39,7 @@ const codeVerify = (req, res, next) => {
                 else
                     console.log('Sent: '+ res.response);
             });
-            return res.status(200).json({"email": req.body.email, "code": code});
+            return res.status(200).json({"email": req.body.email, "code": code.toString()});
         } else {
             return res.status(400).json({message: "Email not provided"});
         }
