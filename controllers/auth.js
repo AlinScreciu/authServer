@@ -9,7 +9,7 @@ dotenv.config();
 var codes = []; // { "email": "pula@j.s", "code": "123456"}
 const updatePass = (req, res, next) => {
 
-    console.log("!!!!!", JSON.stringify(req.body,0,2));
+    console.log(req.body.code);
     const targetUser = codes.filter(obj => {return obj.email == req.body.email});
     if (targetUser.length === 0) return res.status(409).json({ 
         message: "No verification code was sent for this email", 
