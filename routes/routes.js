@@ -13,7 +13,7 @@ router.get('/public', (req, res, next) => {
     res.send('Hello world!');
 });
 
-router.get('/verify', codeVerify);
+router.post('/verify', codeVerify);
 
 // router.post('/update', update);
 // will match any other path
