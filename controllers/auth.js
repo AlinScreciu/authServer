@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 
 import User from '../models/user.js';
 import dotenv from 'dotenv'
+import { where } from 'sequelize/types';
 
 dotenv.config();
 var codes = [];
@@ -23,7 +24,7 @@ const updatePass = (req, res, next) => {
                 } else if (passwordHash) {
                     return User.update(({
                         password: passwordHash,
-                    }))
+                    },{where: {email: req.body.email}}))
                     .then(() => {
                         res.status(200).json({message: "Password updated", success: true});
                     })
