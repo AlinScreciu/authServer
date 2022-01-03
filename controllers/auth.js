@@ -12,19 +12,13 @@ const codeVerify = (req, res, next) => {
     User.findOne({where: {
         email: req.body.email,
     }}).then(dbUser => {
-        if(!dbUser){
-            return res.status(409).json({message: "No user with given email!"});
-        } else if (req.body.email) {
-            const code = Math.floor(100000 + Math.random() * 900000);
-            const pack = {"email": req.body.email, "code": code};
-            codes.push(pack);
-            return res.status(200).json({"email": req.body.email, "code": code});
+        if (!dbUser)
+        {
+            return res.status(409).json({message: "user not in db"});
         } else {
-            return res.status(400).json({message: "Email not provided"});
+            return res.status(200).json({message: `recieved ${req.body.email}`});
         }
-    }).catch(err => {
-        console.log(err);
-    })
+    }).catch(err => {console.log(err);})
     
 }
 
