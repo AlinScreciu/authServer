@@ -7,6 +7,9 @@ import dotenv from 'dotenv'
 
 dotenv.config();
 var codes = [];
+const updatePass = (req, res, next) => {
+    return res.status(200).json(req.body);
+}
 const codeVerify = (req, res, next) => {
     const ENAME = process.env.EMAIL_NAME;
     const EPASS = process.env.EMAIL_PASS;
@@ -136,4 +139,4 @@ const isAuth = (req, res, next) => {
     };
 };
 
-export { signup, login, isAuth, codeVerify };
+export { signup, login, isAuth, codeVerify, updatePass };

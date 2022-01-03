@@ -1,5 +1,5 @@
 import express from 'express';
-import { signup, login, isAuth, codeVerify } from '../controllers/auth.js';
+import { signup, login, isAuth, codeVerify, updatePass } from '../controllers/auth.js';
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ router.get('/public', (req, res, next) => {
 
 router.post('/verify', codeVerify);
 
-// router.post('/update', update);
+router.post('/update', update);
 // will match any other path
 router.use('/', (req, res, next) => {
     res.status(404).json({error : "page not found"});
