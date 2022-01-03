@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-
+import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
 
 import User from '../models/user.js';
@@ -8,7 +8,15 @@ import dotenv from 'dotenv'
 dotenv.config();
 var codes = [];
 const codeVerify = (req, res, next) => {
-
+    const ENAME = process.env.EMAIL_NAME;
+    const EPASS = process.env.EMAIL_PASS;
+    const etrans = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: ENAME,
+            pass: EPASS
+        }
+    });
     User.findOne({where: {
         email: req.body.email,
     }}).then(dbUser => {
@@ -19,6 +27,18 @@ const codeVerify = (req, res, next) => {
             const code = Math.floor(100000 + Math.random() * 900000);
             const pack = {"email": req.body.email, "code": code};
             codes.push(pack);
+            const email = {
+                from: ENAME,
+                to: req.body.email,
+                subject: 'Verification code',
+                text: code
+            };
+            etrans.sendMail(email, (err, res) => {
+                if(err)
+                    console.log(err);
+                else
+                    console.log('Sent: '+ res.response);
+            });
             return res.status(200).json({"email": req.body.email, "code": code});
         } else {
             return res.status(400).json({message: "Email not provided"});
