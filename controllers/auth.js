@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 
 import User from '../models/user.js';
 import dotenv from 'dotenv'
-import { where } from 'sequelize/types';
 
 dotenv.config();
 var codes = [];
@@ -22,15 +21,15 @@ const updatePass = (req, res, next) => {
                 if (err) {
                     return res.status(500).json({message: "couldnt hash the password", success: false}); 
                 } else if (passwordHash) {
-                    return User.update(({
+                    return dbUser.update(({
                         password: passwordHash,
-                    },{where: {email: req.body.email}}))
+                    }))
                     .then(() => {
-                        res.status(200).json({message: "Password updated", success: true});
+                        res.status(200).json({message: "User updated", success: true});
                     })
                     .catch(err => {
                         console.log(err);
-                        res.status(502).json({message: "error while updatign the password", success: false});
+                        res.status(502).json({message: "error while updating the password", success: false});
                     });
                 };
             });
