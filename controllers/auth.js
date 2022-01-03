@@ -8,7 +8,8 @@ import dotenv from 'dotenv'
 dotenv.config();
 var codes = [];
 const codeVerify = (req, res, next) => {
-    return res.status(200).json({message: `recieved ${req.body.email}`});
+
+    return res.status(200).json({message: `recieved ${JSON.stringify(req.body.email)}`});
 
 }
 
