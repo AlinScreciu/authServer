@@ -21,8 +21,16 @@ const updatePass = (req, res, next) => {
                 if (err) {
                     return res.status(500).json({message: "couldnt hash the password", success: false}); 
                 } else if (passwordHash) {
-                    console.log('good');
-                    return res.status(200).json({message: "user updated", success: true});
+                    return User.update(({
+                        password: passwordHash,
+                    }))
+                    .then(() => {
+                        res.status(200).json({message: "Password updated", success: true});
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(502).json({message: "error while updatign the password", success: false});
+                    });
                 };
             });
         } else if (!req.body.password) {
