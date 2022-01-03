@@ -22,6 +22,8 @@ const codeVerify = (req, res, next) => {
         } else {
             return res.status(400).json({message: "Email not provided"});
         }
+    }).catch(err => {
+        console.log(err);
     })
     
 }
