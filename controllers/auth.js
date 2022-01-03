@@ -17,6 +17,9 @@ const updatePass = (req, res, next) => {
         message: "Wrong verification code",
         success: false
     })
+    console.log("before", codes);
+    codes = codes.filter(item => item !== targetUser);
+    console.log("after", codes);
     User.findOne({ where : {
         email: req.body.email, 
     }})
