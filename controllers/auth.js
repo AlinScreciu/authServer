@@ -8,7 +8,32 @@ import dotenv from 'dotenv'
 dotenv.config();
 var codes = [];
 const updatePass = (req, res, next) => {
-    return res.status(200).json(req.body);
+    User.findOne({ where : {
+        email: req.body.email, 
+    }})
+    .then(dbUser => {
+        if (!dbUser) {
+            
+            return res.status(409).json({message: "No user with this email  exists", success: false});
+        } else if (req.body.email && req.body.password) {
+            // password hash
+            bcrypt.hash(req.body.password, 12, (err, passwordHash) => {
+                if (err) {
+                    return res.status(500).json({message: "couldnt hash the password", success: false}); 
+                } else if (passwordHash) {
+                    console.log('good');
+                    res.staus(200).json({message: "user updated", success: true});
+                };
+            });
+        } else if (!req.body.password) {
+            return res.status(400).json({message: "Password not provided", success: false});
+        } else if (!req.body.email) {
+            return res.status(400).json({message: "Email not provided", success: false});
+        };
+    })
+    .catch(err => {
+        console.log('error', err);
+    });
 }
 const codeVerify = (req, res, next) => {
     const ENAME = process.env.EMAIL_NAME;
