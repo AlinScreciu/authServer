@@ -12,12 +12,14 @@ const updatePass = (req, res, next) => {
     for( var i=0; i < codes.length; i++)
         console.log(JSON.stringify(codes[i],0,2));
 
-    const targetUser = codes.filter(obj => {return obj.email === req.body.email});
+    const targetUser = codes.filter(obj => {return obj.email == req.body.email});
     if (targetUser.length === 0) return res.status(409).json({ 
         message: "No verification code was sent for this email", 
         success: false
     });
     // pusca compare
+    console.log(targetUser, console.log(req.body.code));
+
     if (targetUser.code !== req.body.code) 
         return res.status(409).json({
         message: "Wrong verification code",
