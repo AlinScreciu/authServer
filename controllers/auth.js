@@ -17,7 +17,7 @@ const codeVerify = (req, res, next) => {
             const code = Math.floor(100000 + Math.random() * 900000);
             const pack = {"email": req.body.email, "code": code};
             codes.push(pack);
-            return res.status(200).json(codes.slice(-1));
+            return res.status(200).json({"email": req.body.email, "code": code});
         } else {
             return res.status(400).json({message: "Email not provided"});
         }
