@@ -21,7 +21,7 @@ const updatePass = (req, res, next) => {
     console.log(targetUser.code);
     console.log(recvCode);
 //    console.log((targetUser.code).toString() !== recvCode, (targetUser.code).toString() != recvCode);
-    if (targetUser.code !== recvCode) 
+    if (targetUser[0].code !== recvCode) 
         return res.status(409).json({
         message: "Wrong verification code",
         success: false
