@@ -10,8 +10,8 @@ var codes = [];
 const codeVerify = (req, res, next) => {
     const code = Math.floor(100000 + Math.random() * 900000);
     const pack = {"email": req.body.email, "code": code};
-    codes.push(pack);
-            return res.status(200).json({"email": req.body.email, "code": code});
+    //codes.push(pack);
+    return res.status(200).json(pack);
     // User.findOne({where: {
     //     email: req.body.email,
     // }}).then(dbUser => {
