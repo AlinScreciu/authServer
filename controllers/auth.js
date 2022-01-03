@@ -8,6 +8,15 @@ import dotenv from 'dotenv'
 dotenv.config();
 var codes = [];
 const updatePass = (req, res, next) => {
+    const targetUser = codes.filter(obj => {return obj === req.body.email});
+    if (!targetUser) return res.status(409).json({ 
+        message: "No verification code was sent for this email", 
+        success: false
+    });
+    if (targetUser.code != req.body.code) return res.status(409).json({
+        message: "Wrong verification code",
+        success: false
+    })
     User.findOne({ where : {
         email: req.body.email, 
     }})
