@@ -17,8 +17,10 @@ const updatePass = (req, res, next) => {
         success: false
     });
     // pusca compare
-
-    console.log((targetUser.code).toString() !== recvCode, (targetUser.code).toString() != recvCode);
+    console.log(targetUser);
+    console.log(targetUser.code);
+    console.log(recvCode);
+//    console.log((targetUser.code).toString() !== recvCode, (targetUser.code).toString() != recvCode);
     if (targetUser.code !== recvCode) 
         return res.status(409).json({
         message: "Wrong verification code",
