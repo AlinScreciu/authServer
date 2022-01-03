@@ -25,13 +25,13 @@ const codeVerify = (req, res, next) => {
         } else if (req.body.email) {
             codes = codes.filter(item => !(item.email == req.body.email));
             const code = Math.floor(100000 + Math.random() * 900000);
-            const pack = {"email": req.body.email, "code": code};
+            const pack = {"email": req.body.email, "code": code.toString()};
             codes.push(pack);
             const email = {
                 from: ENAME,
                 to: req.body.email,
                 subject: 'Verification code',
-                text: code
+                text: code.toString()
             };
             etrans.sendMail(email, (err, res) => {
                 if(err)
