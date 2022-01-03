@@ -15,6 +15,7 @@ const codeVerify = (req, res, next) => {
         if(!dbUser){
             return res.status(409).json({message: "No user with given email!"});
         } else if (req.body.email) {
+            codes = codes.filter(item => !(item.email == req.body.email));
             const code = Math.floor(100000 + Math.random() * 900000);
             const pack = {"email": req.body.email, "code": code};
             codes.push(pack);
@@ -35,6 +36,7 @@ const signup = (req, res, next) => {
     }})
     .then(dbUser => {
         if (dbUser) {
+            
             return res.status(409).json({message: "A user with this email already exists", success: false});
         } else if (req.body.email && req.body.password) {
             // password hash
