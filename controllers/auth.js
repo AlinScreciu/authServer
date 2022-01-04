@@ -10,18 +10,15 @@ var codes = []; // { "email": "pula@j.s", "code": "123456"}
 const updatePass = (req, res, next) => {
 
     const recvCode = (req.body.code).toString();
-    console.log(recvCode);
-    const targetUser = codes.filter(obj => {return obj.email == req.body.email});
+    const targetUser = codes.filter(obj => {return obj.email == req.body.email})[0];
     if (targetUser.length === 0) return res.status(409).json({ 
         message: "No verification code was sent for this email", 
         success: false
     });
     // pusca compare
-    console.log(targetUser);
-    console.log(targetUser.code);
-    console.log(recvCode);
+
 //    console.log((targetUser.code).toString() !== recvCode, (targetUser.code).toString() != recvCode);
-    if (targetUser[0].code !== recvCode) 
+    if (targetUser.code !== recvCode) 
         return res.status(409).json({
         message: "Wrong verification code",
         success: false
@@ -96,7 +93,7 @@ const codeVerify = (req, res, next) => {
                 else
                     console.log('Sent: '+ res.response);
             });
-            return res.status(200).json({"email": req.body.email, "code": code.toString(), success: true});
+            return res.status(200).json({"email": req.body.email, success: true});
         } else {
             return res.status(400).json({message: "Email not provided", success: false});
         }
