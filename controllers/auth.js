@@ -10,6 +10,9 @@ var codes = []; // { "email": "pula@j.s", "code": "123456"}
 const updatePass = (req, res, next) => {
 
     const recvCode = (req.body.code).toString();
+    console.log(recvCode);
+    console.log(req.body);
+    console.log(req.body.code);
     const targetUser = codes.filter(obj => {return obj.email == req.body.email})[0];
     if (targetUser.length === 0) return res.status(409).json({ 
         message: "No verification code was sent for this email", 
