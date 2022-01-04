@@ -1,5 +1,5 @@
 import express from 'express';
-import { signup, login, isAuth, codeVerify, updatePass } from '../controllers/auth.js';
+import { signup, login, isAuth, codeVerify, updatePass, getCode } from '../controllers/auth.js';
 
 const router = express.Router();
 
@@ -13,10 +13,10 @@ router.get('/public', (req, res, next) => {
     res.send('Hello world!');
 });
 
-router.post('/verify', codeVerify);
-
+router.post('/makecode', getCode);
+router.post('/verifycode', codeVerify);
 router.post('/update', updatePass);
-// will match any other path
+
 router.use('/', (req, res, next) => {
     res.status(404).json({error : "page not found"});
 });
