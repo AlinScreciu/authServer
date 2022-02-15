@@ -9,13 +9,14 @@ router.post('/signup', signup);
 
 router.get('/private', isAuth);
 
-router.get('/public', (req, res, next) => {
-    res.send('Hello world!');
-});
 
 router.post('/makecode', getCode);
 router.post('/verifycode', codeVerify);
 router.post('/update', updatePass);
+
+router.get('/public', (req, res, next) => {
+    res.send('Hello world!');
+});
 
 router.use('/', (req, res, next) => {
     res.status(404).json({error : "page not found"});
